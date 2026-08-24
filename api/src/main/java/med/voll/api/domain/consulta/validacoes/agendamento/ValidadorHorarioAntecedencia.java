@@ -1,12 +1,14 @@
 package med.voll.api.domain.consulta.validacoes.agendamento;
 
-import jakarta.validation.ValidationException;
+import med.voll.api.domain.ValidacaoException;
 import med.voll.api.domain.consulta.DadosAgendamentoConsulta;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class ValidadorHorarioAntecedencia {
+@Component
+public class ValidadorHorarioAntecedencia implements ValidadorAgendamentoDeConsulta {
 
     public void validar(DadosAgendamentoConsulta dados){
         var dataConsulta = dados.data();
@@ -14,7 +16,7 @@ public class ValidadorHorarioAntecedencia {
         var diferencaEmMinutos = Duration.between(agora, dataConsulta).toMinutes();
 
         if (diferencaEmMinutos<30){
-            throw new ValidationException("Consulta deve ser agendada com antecedencia minima de 30 minutos");
+            throw new ValidacaoException("Consulta deve ser agendada com antecedencia minima de 30 minutos");
         }
     }
 }
